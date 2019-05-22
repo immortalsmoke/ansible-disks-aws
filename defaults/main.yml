@@ -1,0 +1,20 @@
+# See readme for explanation of variables.
+
+nvme_bit: ""
+
+nvmelist:
+  - c5
+  - c5d
+  - c5n
+  - i3en
+  - m5
+  - m5a
+  - m5ad
+  - m5d
+  - r5
+  - r5a
+  - r5ad
+  - r5d
+  - t3
+  - t3a
+  - z1d

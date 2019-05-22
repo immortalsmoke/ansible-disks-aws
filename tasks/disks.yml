@@ -1,0 +1,24 @@
+#- name: variable debugger
+#  debug:
+#    msg: "{{ partitions }}"
+
+- name: "Partition disk {{ disk.device }}"
+  parted:
+    device: "{{ disk.device }}"
+    number: "{{ disk.number }}"
+    state: "{{ disk.diskstate }}"
+- name: "Create filesystem on {{ disk.device }}{{ nvme_bit }}{{ disk.number }}"
+  filesystem:
+    fstype: "{{ disk.fstype }}"
+    dev: "{{ disk.device }}{{ nvme_bit }}{{ disk.number }}"
+- name: "Create mount point directory for {{ disk.device }}{{ nvme_bit }}{{ disk.number }}"
+  file:
+    path: "{{ disk.mountpoint }}"
+    state: directory
+- name: "Mount {{ disk.device }}{{ nvme_bit }}{{ disk.number }} at {{ disk.mountpoint }}"
+  mount:
+    path: "{{ disk.mountpoint }}"
+    src: "{{ disk.device }}{{ nvme_bit }}{{ disk.number }}"
+    fstype: "{{ disk.fstype }}"
+    state: "{{ disk.mountstate }}"  # this also modifies fstab accordingly
+

@@ -1,0 +1,17 @@
+# AWS Linux Disk Provisioning Role
+
+- set_fact:
+    nvme_bit: "p"
+  when: (ansible_product_name.split('.')[0] in nvmelist) or (ansible_product_name == "p3dn.24xlarge") or (ansible_product_name.split('.')[1] == "metal")
+  
+
+- debug:
+    msg: "Instance type for {{ hostname }} is {{ ansible_product_name.split('.')[0] }} and the ssdtype is {{ nvme_bit }}"
+    verbosity: 1
+
+- name: "Provision disks with proper variables"
+  include_tasks: disks.yml
+  with_items: "{{ partitions }}"
+  loop_control:
+    loop_var: disk
+  when: partitions is defined
